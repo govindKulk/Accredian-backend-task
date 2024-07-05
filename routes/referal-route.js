@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const referalController = require('../controllers/referalController');
-const getPrismaClient  = require('../client.js')
+const getPrismaClient  = require('../client.js');
+const emailValidator = require("../middleware/validator.js");
 
 router.get("/", async (req, res) => {
 
@@ -13,7 +14,7 @@ router.get("/", async (req, res) => {
     res.status(200).json({referrals});
 })
 
-router.post('/', referalController.createReferal );
+router.post('/', emailValidator,  referalController.createReferal );
 
 module.exports = router;
 

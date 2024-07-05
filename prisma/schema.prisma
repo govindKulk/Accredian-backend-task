@@ -15,8 +15,10 @@ datasource db {
 
 model Referral {
   id Int @id @default(autoincrement())
-  refererEmail String @db.VarChar(255) @unique
+  refererEmail String @db.VarChar(255) 
   refererName String @db.VarChar(255)
-  refereeEmail String @db.VarChar(255) @unique
+  refereeEmail String @db.VarChar(255)
   message String? @db.VarChar(255)
+
+  @@unique([refererEmail, refereeEmail])
 }

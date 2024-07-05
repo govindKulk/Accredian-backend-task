@@ -3,6 +3,7 @@ const express = require("express");
 const referalRoute = require('./routes/referal-route');
 
 const app  = express();
+require('dotenv').config();
 
 const middleware = (req, res, next) => { 
     const path = req.path;
