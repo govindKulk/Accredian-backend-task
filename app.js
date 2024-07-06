@@ -14,7 +14,7 @@ const middleware = (req, res, next) => {
     next();
   }
 
-app.use(cors({origin: 'https://accredian-frontend-task-plum.vercel.app/'}))
+app.use(cors({origin: ['https://accredian-frontend-task-plum.vercel.app', 'http://localhost:5173']}))
 app.use(express.json());
 app.use(middleware);
 
