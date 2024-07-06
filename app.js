@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors')
 
 const referalRoute = require('./routes/referal-route');
 
@@ -13,8 +14,10 @@ const middleware = (req, res, next) => {
     next();
   }
 
+app.use(cors({origin: 'https://accredian-frontend-task-plum.vercel.app/'}))
 app.use(express.json());
 app.use(middleware);
+
 
 app.use('/referal', referalRoute);
 
