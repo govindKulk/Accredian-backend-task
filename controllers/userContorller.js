@@ -34,7 +34,7 @@ async function register(req, res){
 
     }catch(error){
         console.log(error);
-        res.status(400).json({error});
+        res.status(400).json({error: error.message});
     }
 
 }
