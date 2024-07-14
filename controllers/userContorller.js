@@ -48,6 +48,10 @@ async function login(req, res){
     }
 
     const prisma = getPrismaClient();
+
+    const users = await prisma.user.findMany();
+    console.log(users, 'users');
+
     try{
         const user = await prisma.user.findUnique({
             where: {
