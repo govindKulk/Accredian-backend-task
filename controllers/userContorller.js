@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const getPrismaClient = require('../client')
 const jwt = require('jsonwebtoken');
 const { createTokens, generatePasswordHash, verifyToken } = require('../utils/tokens');
+const { PrismaClient, Prisma } = require('@prisma/client');
 
 async function register(req, res){
     const {name, email, password} = req.body;
@@ -10,6 +11,11 @@ async function register(req, res){
     if(!name || !email || !password){
         res.status(400).json({error: "Please provide all fields"});
     }
+    console.log(prisma, "prisma")
+    const referal = await prisma.referral.findMany();
+    console.log(referal, "referal")
+    
+    console.log(prisma.user, "prisma user")
 
     const prisma = getPrismaClient();
     try {
@@ -49,8 +55,7 @@ async function login(req, res){
 
     const prisma = getPrismaClient();
 
-    const users = await prisma.user.findMany();
-    console.log(users, 'users');
+
 
     try{
         const user = await prisma.user.findUnique({
