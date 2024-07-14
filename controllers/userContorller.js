@@ -11,13 +11,13 @@ async function register(req, res){
     if(!name || !email || !password){
         res.status(400).json({error: "Please provide all fields"});
     }
+    const prisma = getPrismaClient();
     console.log(prisma, "prisma")
     const referal = await prisma.referral.findMany();
     console.log(referal, "referal")
-    
+
     console.log(prisma.user, "prisma user")
 
-    const prisma = getPrismaClient();
     try {
         const hash = await generatePasswordHash(password);
         const user = await prisma.user.create({
@@ -50,10 +50,16 @@ async function login(req, res){
     const {email, password} = req.body;
 
     if(!email || !password){
-        res.status(400).json({error: "Please provide all fields"});
+        return res.status(400).json({error: "Please provide all fields"});
     }
 
     const prisma = getPrismaClient();
+
+    console.log(prisma, "prisma")
+    const referal = await prisma.referral.findMany();
+    console.log(referal, "referal")
+
+    console.log(prisma.user, "prisma user")
 
 
 
