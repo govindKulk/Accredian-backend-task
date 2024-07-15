@@ -32,7 +32,7 @@ async function register(req, res){
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: false, // set to true in production
-            samesite: 'None'
+
         });
 
         res.status(201).json({user, accessToken});
@@ -54,12 +54,6 @@ async function login(req, res){
     }
 
     const prisma = getPrismaClient();
-
-    console.log(prisma, "prisma")
-    const referal = await prisma.referral.findMany();
-    console.log(referal, "referal")
-
-    console.log(prisma.user, "prisma user")
 
 
 
@@ -84,7 +78,7 @@ async function login(req, res){
         res.cookie('refreshToken', refreshToken, { 
             httpOnly: true,
             secure: false, // set to true in production
-            samesite: 'None'
+
         });
 
         res.status(200).json({user, accessToken});
@@ -104,7 +98,7 @@ async function logout(req, res){
 }
 
 async function validateToken(req, res){
-    const {accessToken} = req.headers.authorization;
+    const accessToken = req.headers.authorization;
     console.log(req.cookies['refreshToken']);
     if(!accessToken){
         return res.status(401).json({error: "Unauthorized"});
@@ -114,7 +108,20 @@ async function validateToken(req, res){
         return res.status(200).json({user});
     }catch(error){
         console.log(error, 'access token error');
-        return res.status(401).json({error: "Unauthorized"});
+        
+        try{
+            const refreshToken = req.cookies['refreshToken'];
+            if(!refreshToken){
+                return res.status(401).json({error: "Unauthorized"});
+            }
+            const user = verifyToken(refreshToken, "refresh");
+            // console.log(user, "user from refresh token");
+            const {accessToken} = createTokens(user, "access");
+            return res.status(200).json({user, accessToken});
+        }catch(error){
+            console.log(error, 'refresh token error');
+            return res.status(401).json({error: "Unauthorized"});
+        }
     }
 }
 

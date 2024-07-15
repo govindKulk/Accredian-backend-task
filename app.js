@@ -18,13 +18,19 @@ const middleware = (req, res, next) => {
     next();
   }
 
-app.use(cors({origin: ['https://accredian-frontend-task-plum.vercel.app', 'http://localhost:5173'], credentials: true}))
+
+
+
+
+// set allow-credentials to true
+app.use(cors({credentials: true, origin: 'http://localhost:5173'}));
+
 app.use(express.json());
 app.use(cookieParser("SECRET"));
 app.use(middleware);
 
 
-app.use('/referal',  referalRoute);
+app.use('/referal',authenticate,  referalRoute);
 app.get('/test', async (req, res) => {
   const prisma = getPrismaClient();
   const data = await prisma.user.findMany();

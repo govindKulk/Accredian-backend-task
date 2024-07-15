@@ -11,13 +11,17 @@ function verifyToken(token, type){
 
 
 function createTokens(user, type){
+
+    delete user['exp'];
+    delete user['iat'];
+
     if(type === "access"){
-        const accessToken = jwt.sign({id: user.id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1m'});
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1m'});
         return {accessToken};
     }
 
-    const accessToken = jwt.sign({id: user.id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1m'});
-    const refreshToken = jwt.sign({id: user.id}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '5m'});
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1m'});
+    const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '5m'});
 
     return {accessToken, refreshToken};
 }
