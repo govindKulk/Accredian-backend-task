@@ -23,7 +23,7 @@ const middleware = (req, res, next) => {
 
 
 // set allow-credentials to true
-app.use(cors({credentials: true, origin: 'http://localhost:5173'}));
+app.use(cors({credentials: true, origin: ['http://localhost:5173', 'https://accredian-frontend-task-plum.vercel.app']}));
 
 app.use(express.json());
 app.use(cookieParser("SECRET"));
