@@ -31,6 +31,8 @@ app.use(cookieParser("SECRET"));
 app.use(middleware);
 
 
+
+
 app.use('/referal',authenticate,  referalRoute);
 app.get('/test', async (req, res) => {
   const prisma = getPrismaClient();

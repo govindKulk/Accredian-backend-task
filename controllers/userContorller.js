@@ -31,8 +31,8 @@ async function register(req, res){
         const {accessToken, refreshToken} = createTokens(user);
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: false, // set to true in production
-
+            secure: true, // set to true in production
+            sameSite: 'None'
         });
 
         res.status(201).json({user, accessToken});
@@ -77,8 +77,8 @@ async function login(req, res){
 
         res.cookie('refreshToken', refreshToken, { 
             httpOnly: true,
-            secure: false, // set to true in production
-
+            secure: true, // set to true in production
+            sameSite: 'None'
         });
 
         res.status(200).json({user, accessToken});
